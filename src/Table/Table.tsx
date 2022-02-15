@@ -3,6 +3,7 @@ import { Grid, AutoSizer, ScrollSync } from "react-virtualized";
 import styles from "./Table.module.css";
 import cn from "classnames";
 import TableHeader from "./components/TableHeader/TableHeader";
+import { getIngredients, TIngredient } from "../utils/fake-api";
 
 interface ICellRendererConfig {
   columnIndex: number;
@@ -32,23 +33,19 @@ const Table = () => {
   };
 
   const loadData = (page: number, size: number) => {
-    return fetch(
-      `https://api.instantwebtools.net/v1/passenger?page=${page}&size=${size}`
-    )
-      .then((res) => res.json())
-      .then(({ data }) => {
-        const preparedData = data.reduce(
-          (acc: any, item: any) => [...acc, prepareRow(item)],
-          []
-        );
-        setPreparedData((prev) => {
-          if (!prev) {
-            return preparedData;
-          }
-          return [...prev, preparedData];
-        });
-        setRowsCount(preparedData.length);
+    return getIngredients({ page, limit: size }).then((data) => {
+      const preparedData = data.reduce(
+        (acc: any, item: any) => [...acc, prepareRow(item)],
+        []
+      );
+      setPreparedData((prev) => {
+        if (!prev) {
+          return preparedData;
+        }
+        return [...prev, preparedData];
       });
+      setRowsCount(preparedData.length);
+    });
   };
 
   useEffect(() => {
@@ -66,9 +63,8 @@ const Table = () => {
     console.log(preparedData && preparedData[rowIndex]);
   };
 
-  const prepareRow = (data: any) => {
-    const airline = data.airline[0] ? data.airline[0].name : "–";
-    return [data.name, data.trips, airline];
+  const prepareRow = (data: TIngredient) => {
+    return [data.title, data.units, data.category];
   };
 
   const cellRenderer = (config: ICellRendererConfig): React.ReactNode => {
