@@ -1,0 +1,33 @@
+.table {
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.headCell {
+  margin: 0;
+  border-bottom: 1px solid rgba(216, 211, 219, 0.52);;
+  font-size: 16px;
+  position: fixed;
+  padding: 14px 8px;
+  box-sizing: border-box;
+}
+.headCell:hover {
+  background-color: #e5efff;
+}
+
+.cell {
+  border-bottom: 1px solid rgba(216, 211, 219, 0.52);
+  border-right: 1px solid rgba(216, 211, 219, 0.52);
+  box-sizing: border-box;
+  margin: 0;
+  padding: 4px 8px;
+  overflow: hidden;
+}
+
+.cell_lastColumn {
+  border-right: 1px solid rgba(216, 211, 219, 0.52);;
+}
+
+.cell_hover {
+  background-color: beige;
+}
